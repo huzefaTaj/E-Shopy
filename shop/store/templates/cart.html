@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load cart %}
+{% load custom_filter %}
+
+{% block content %}
+{%if products|total_cart_price:request.session.cart == 0 %}
+<div style="width: 50%; margin-top: 40%; " class="col-lg-3 mx-auto p-5 mt-4">
+    <h1 style="text-align: center;"> Cart is Empty ¯\_(ツ)_/¯</h1>
+
+    <a style="text-decoration: none;" href="/"><button style="text-align: center; width: 100%;" type="button"
+            class="btn btn-outline-success mt-5"><b>
+                Add item to Cart</b></button></a>
+</div>
+{% else %}
+{% for message in messages %}
+<div style="text-align: center;" class="alert alert-danger" role="alert">
+    {{message}}
+</div>
+{% endfor %}
+
+
+<div class="container">
+    <div style="overflow: scroll;" class="border rounded p-4 mt-4">
+        <p class="display-4 pl-4 ml-4">Your Cart</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sno.</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    {% if product.image %}
+                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt="">
+                    </td>
+                    {% else %}
+                    <td><img style="height: 80px;" src="{{ product.image_url }}" class="card-img-top" alt="..."></td>
+                    {% endif %}
+                    <td>{{product.name}}</td>
+                    <td> {{product.price|currency}}</td>
+                    <td>{{product|cart_quantity:request.session.cart}}</td>
+                    <td><b>{{product|price_total:request.session.cart|currency}}</b></td>
+                </tr>
+                {%endfor%}
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4"></th>
+                    <th class="" colspan="">Total</th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+
+
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="m-3 p-3">
+            {% if request.session.customer %}
+            <button type="button" class="btn btn-outline-info  col-lg-3 float-right" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                Check out
+            </button>
+            {% else %}
+            <a class="btn btn-outline-info  col-lg-3 float-right" href="/login?return_url=/cart">Login</a>
+            {%endif%}
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Check Out Form
+                </h5>
+                <hr>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="m-2 p-3">
+                    <form action="/check-out" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Customer Name *</label>
+                            <input type="text" name="customername" id="" class="form-control"
+                                value="{{customer_Full_name}}" placeholder="" aria-describedby="helpId">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="">Address *</label>
+                            <input type="text" name="address" id="" class="form-control" placeholder=""
+                                aria-describedby="helpId">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="">City *</label>
+                            <select class="form-control" name="city" id="year2">
+                                <option value="">Select</option>
+                                <option value="Udaipur">Udaipur</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="">Postcode *</label>
+                            <select class="form-control" name="postcode" id="year2">
+                                <option value="">Select</option>
+                                <option value="313001">313001</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">State *</label>
+                            <select class="form-control" name="state" id="year2">
+                                <option value="">Select</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone *</label>
+                            <input type="text" name="phone" id="" class="form-control mb-2" placeholder=""
+                                value="{{customerphone}}" aria-describedby="helpId">
+                        </div>
+                        <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Buy Now">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{%endif%}
+{% endblock %}
