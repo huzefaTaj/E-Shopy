@@ -121,7 +121,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'shop/images'
 
 MEDIA_URL = "/image/download/"
 MEDIA_ROOT = BASE_DIR
