@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from operator import truediv
 from pathlib import Path
 from pickle import FALSE
 
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ni_iu@xj5symhn&uzgh=a6b#61+su1()1k-m*3nkpex+p^sh2u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','eshopyy.herokuapp.com']
 
