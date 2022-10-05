@@ -3,7 +3,7 @@ from .category import Category
 
 class Banner(models.Model):
     carousel_id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to="shop/images", default="")
+    image_url = models.CharField(max_length = 2083, blank=True)
     category= models.ForeignKey(Category, on_delete=models.CASCADE,blank=True,null=True, default=1)
 
     @staticmethod

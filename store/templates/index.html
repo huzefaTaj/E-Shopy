@@ -26,7 +26,7 @@
         {% for i in carousel %}
         <div class="carousel-item {% if forloop.counter == 1 %} active {%endif%}">
             <a href="/?category={{i.category.id}}">
-                <img style="height: 30rem; width: 100%; overflow: hidden;" src="{{i.image.url}}" class="d-block w-100"
+                <img style="height: 30rem; width: 100%; overflow: hidden;" src="{{i.image_url}}" class="d-block w-100"
                     alt="...">
             </a>
         </div>
